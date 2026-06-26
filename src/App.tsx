@@ -1,15 +1,10 @@
-import { Timer } from "../components/timer/Timer";
-import { Scoreboard } from "../components/scoreboard/Scoreboard";
-import { Cards } from "../components/cards/Cards";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 function App() {
   return (
     <>
       <h1>Ref 5</h1>
-      <section>
-        <Timer seconds={60} />
-        <Scoreboard />
-        <Cards />
-      </section>
+      <RouterProvider router={router} />
     </>
   );
 }

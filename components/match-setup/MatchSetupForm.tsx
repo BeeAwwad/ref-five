@@ -5,8 +5,6 @@ export function MatchSetupForm() {
 
   return (
     <div>
-      <h2>Start Match</h2>
-
       <input
         type="number"
         value={minutes}

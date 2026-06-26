@@ -11,3 +11,19 @@ export interface Match {
   duration: number;
   startedAt: number;
 }
+
+export interface MatchData {
+  duration: number;
+
+  teamA: {
+    name: string;
+    color: string;
+    score: number;
+  };
+
+  teamB: {
+    name: string;
+    color: string;
+    score: number;
+  };
+}
