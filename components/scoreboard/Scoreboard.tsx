@@ -1,23 +1,27 @@
-import { useState } from "react";
 import { TeamScore } from "./TeamScore";
+import { useMatch } from "../../hooks/useMatch";
 
 export function Scoreboard() {
-  const [teamA, setTeamA] = useState(0);
+  const { match, updateScore } = useMatch();
 
-  const [teamB, setTeamB] = useState(0);
+  if (!match) {
+    return null;
+  }
 
   return (
     <div>
       <TeamScore
-        name="Team A"
-        score={teamA}
-        onGoal={() => setTeamA((prev) => prev + 1)}
+        name={match.teamA.name}
+        score={match.teamA.score}
+        onGoal={() => updateScore(match.teamA.name, 1)}
+        onUndo={() => updateScore(match.teamA.name, -1)}
       />
 
       <TeamScore
-        name="Team B"
-        score={teamB}
-        onGoal={() => setTeamB((prev) => prev + 1)}
+        name={match.teamB.name}
+        score={match.teamB.score}
+        onGoal={() => updateScore(match.teamB.name, 1)}
+        onUndo={() => updateScore(match.teamB.name, -1)}
       />
     </div>
   );

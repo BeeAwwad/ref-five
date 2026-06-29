@@ -1,4 +1,4 @@
-import { Match } from "../types/match";
+import type { MatchHistory, Match } from "../types/types";
 const STORAGE_KEY = "match-history";
 
 export function saveMatch(match: Match) {
@@ -7,7 +7,7 @@ export function saveMatch(match: Match) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify([...existing, match]));
 }
 
-export function getMatchHistory(): Match[] {
+export function getMatchHistory(): MatchHistory[] {
   const data = localStorage.getItem(STORAGE_KEY);
 
   return data ? JSON.parse(data) : [];

@@ -1,18 +1,31 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import { SetupPage } from "../pages/SetupPage";
 import { MatchPage } from "../pages/MatchPage";
 import { HistoryPage } from "../pages/HistoryPage";
+import { MatchProvider } from "../context/MatchContext";
+
+import { NavBar } from "../components/navbar/NavBar";
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <SetupPage />,
-  },
-  {
-    path: "/match",
-    element: <MatchPage />,
-  },
-  {
-    path: "/history",
-    element: <HistoryPage />,
+    element: (
+      <MatchProvider>
+        <NavBar />
+        <Outlet />
+      </MatchProvider>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <SetupPage />,
+      },
+      {
+        path: "/match",
+        element: <MatchPage />,
+      },
+      {
+        path: "/history",
+        element: <HistoryPage />,
+      },
+    ],
   },
 ]);

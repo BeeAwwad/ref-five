@@ -1,10 +1,19 @@
-import { useContext, createContext } from "react";
-import type { MatchData } from "../types/match";
+import {
+  useContext,
+  createContext,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+import type { MatchData, MatchHistory } from "../types/types";
 
 interface MatchContextType {
   match: MatchData | null;
+  setMatch: Dispatch<SetStateAction<MatchData | null>>;
 
-  setMatch: (match: MatchData) => void;
+  history: MatchHistory[];
+
+  endMatch: () => void;
+  updateScore: (team: string, delta?: number) => void;
 }
 
 export const MatchContext = createContext<MatchContextType | null>(null);
