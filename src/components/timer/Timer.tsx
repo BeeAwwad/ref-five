@@ -7,13 +7,15 @@ interface Props {
 }
 
 export function Timer({ seconds }: Props) {
-  const { timeLeft, start, pause, reset } = useTimer(seconds);
+  const { timeLeft, isRunning, toggle, reset } = useTimer(seconds);
 
   return (
-    <div>
-      <h1>{formatTime(timeLeft)}</h1>
+    <div className="mx-10 mt-10 space-y-5">
+      <h2 className="scroll-m-20 text-5xl font-semibold tracking-tight text-center">
+        {formatTime(timeLeft)}
+      </h2>
 
-      <TimerControls start={start} pause={pause} reset={reset} />
+      <TimerControls isRunning={isRunning} toggle={toggle} reset={reset} />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Timer } from "../src/components/timer/Timer";
 import { Cards } from "../src/components/cards/Cards";
 import { useMatch } from "../hooks/useMatch";
 import { Link } from "react-router-dom";
+import { Button } from "../src/components/ui/button";
 
 export const MatchPage = () => {
   const { match, endMatch } = useMatch();
@@ -10,7 +11,7 @@ export const MatchPage = () => {
   if (!match)
     return (
       <section className="flex justify-center items-center">
-        <p>
+        <p className="leading-7 not-first::mt-6">
           No active match,{" "}
           <Link
             className="border-b px-2 hover:border-b-2 transition-transform border-slate-700 text-slate-700"
@@ -27,8 +28,15 @@ export const MatchPage = () => {
       <Scoreboard />
       <Timer seconds={match?.duration || 0} />
       <Cards />
-
-      <button onClick={endMatch}>End Match</button>
+      <div className="flex justify-center mt-10">
+        <Button
+          className="rounded-none text-base px-7 py-5"
+          size={"lg"}
+          onClick={endMatch}
+        >
+          End Match
+        </Button>
+      </div>
     </section>
   );
 };

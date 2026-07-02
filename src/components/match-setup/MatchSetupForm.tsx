@@ -1,7 +1,7 @@
 import { useMatch } from "../../../hooks/useMatch";
 import { useState } from "react";
 import type { Color } from "../../../types/types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Input } from "../ui/input";
 import {
@@ -13,6 +13,7 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import { Field, FieldLabel } from "../ui/field";
+import { Item, ItemContent, ItemDescription, ItemActions } from "../ui/item";
 
 const availableColors: Color[] = [
   { name: "neon yellow", color: "#CCFF00" },
@@ -36,7 +37,8 @@ export function MatchSetupForm() {
     availableColors[1],
   );
 
-  const { setMatch } = useMatch();
+  const { match, setMatch } = useMatch();
+  const hasActiveMatch = Boolean(match);
   const teamASelectableColors = availableColors.filter(
     (color) => color.color !== teamBColor?.color,
   );
@@ -45,6 +47,10 @@ export function MatchSetupForm() {
   );
 
   function handleCreate() {
+    if (hasActiveMatch) {
+      return;
+    }
+
     if (!teamAColor || !teamBColor) {
       return;
     }
@@ -91,7 +97,34 @@ export function MatchSetupForm() {
   return (
     <Card className="rounded-none mx-5 md:mx-20 mb-10">
       <CardContent className="pt-5 px-0">
-        <Field className="px-10 pb-5">
+        {hasActiveMatch ? (
+          <Item className="flex flex-col px-5 sm:px-10 mb-10">
+            <ItemContent>
+              <ItemDescription>
+                A match is already active. Finish or cancel the current match
+                before creating a new one.
+              </ItemDescription>
+            </ItemContent>
+
+            <ItemActions className="gap-5 flex-col sm:flex-row">
+              <Link
+                to={"/match"}
+                className="border-b px-2 hover:border-b-2 transition-transform border-slate-700 text-slate-700"
+              >
+                Go to Match
+              </Link>
+              <Button
+                type="button"
+                size="lg"
+                className={"rounded-none bg-primary-300"}
+                onClick={() => setMatch(null)}
+              >
+                End Active Match?
+              </Button>
+            </ItemActions>
+          </Item>
+        ) : null}
+        <Field className="px-5 sm:px-10 pb-5">
           <FieldLabel>Match duration (minutes)</FieldLabel>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <Input
@@ -100,6 +133,7 @@ export function MatchSetupForm() {
               value={minutes}
               min="1"
               onChange={(event) => setMinutes(Number(event.target.value))}
+              disabled={hasActiveMatch}
             />
             <div className="flex gap-2">
               {[
@@ -123,7 +157,7 @@ export function MatchSetupForm() {
           </div>
         </Field>
         <div className="border-t py-5 space-y-5">
-          <Field className="px-10">
+          <Field className="px-5 sm:px-10">
             <FieldLabel>Team A name</FieldLabel>
             <Input
               className="rounded-none"
@@ -131,7 +165,7 @@ export function MatchSetupForm() {
               onChange={(event) => setTeamAName(event.target.value)}
             />
           </Field>
-          <Field className="px-10">
+          <Field className="px-5 sm:px-10">
             <FieldLabel>Team A color</FieldLabel>
             <Select
               value={teamAColor?.color ?? ""}
@@ -175,21 +209,23 @@ export function MatchSetupForm() {
         </div>
 
         <div className="border-t space-y-5 py-5">
-          <Field className="px-10">
+          <Field className="px-5 sm:px-10">
             <FieldLabel>Team B name</FieldLabel>
             <Input
               className="rounded-none"
               value={teamBName}
               onChange={(event) => setTeamBName(event.target.value)}
+              disabled={hasActiveMatch}
             />
           </Field>
-          <Field className="px-10">
+          <Field className="px-5 md:px-10">
             <FieldLabel>Team B color</FieldLabel>
             <Select
               value={teamBColor?.color ?? ""}
               onValueChange={(value) =>
                 handleColorChange(value, setTeamBColor, teamAColor)
               }
+              disabled={hasActiveMatch}
             >
               <SelectTrigger className={"rounded-none"}>
                 <SelectValue placeholder="Select color">
@@ -231,6 +267,7 @@ export function MatchSetupForm() {
           className={"mx-auto w-full max-w-lg rounded-none"}
           type="button"
           onClick={handleCreate}
+          disabled={hasActiveMatch}
         >
           Create
         </Button>

@@ -26,6 +26,8 @@ export function useTimer(initialSeconds: number) {
 
   const pause = () => setIsRunning(false);
 
+  const toggle = () => setIsRunning((prev) => !prev);
+
   const reset = () => {
     setTimeLeft(initialSeconds);
     setIsRunning(false);
@@ -33,6 +35,8 @@ export function useTimer(initialSeconds: number) {
 
   return {
     timeLeft,
+    isRunning,
+    toggle,
     start,
     pause,
     reset,

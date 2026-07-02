@@ -9,7 +9,7 @@ export function Scoreboard() {
   }
 
   return (
-    <div>
+    <div className="flex justify-center gap-10 mx-10">
       <TeamScore
         name={match.teamA.name}
         score={match.teamA.score}
