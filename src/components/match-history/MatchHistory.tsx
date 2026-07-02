@@ -1,4 +1,4 @@
-import { useMatch } from "../../hooks/useMatch";
+import { useMatch } from "../../../hooks/useMatch";
 
 export function MatchHistory() {
   const { history } = useMatch();
@@ -15,9 +15,7 @@ export function MatchHistory() {
                 {" - "}
                 {match.team[1].name} {match.team[1].score}
               </p>
-              <small>
-                {new Date(match.endedAt).toLocaleString()}
-              </small>
+              <small>{new Date(match.endedAt).toLocaleString()}</small>
             </div>
           ))
         : "Not Available"}

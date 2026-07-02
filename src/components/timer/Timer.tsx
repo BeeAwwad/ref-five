@@ -1,5 +1,5 @@
-import { formatTime } from "../../utils/time";
-import { useTimer } from "../../hooks/useTimer";
+import { formatTime } from "../../../utils/time";
+import { useTimer } from "../../../hooks/useTimer";
 import { TimerControls } from "./TimerControls";
 
 interface Props {

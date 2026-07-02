@@ -1,6 +1,6 @@
-import { Scoreboard } from "../components/scoreboard/Scoreboard";
-import { Timer } from "../components/timer/Timer";
-import { Cards } from "../components/cards/Cards";
+import { Scoreboard } from "../src/components/scoreboard/Scoreboard";
+import { Timer } from "../src/components/timer/Timer";
+import { Cards } from "../src/components/cards/Cards";
 import { useMatch } from "../hooks/useMatch";
 import { Link } from "react-router-dom";
 

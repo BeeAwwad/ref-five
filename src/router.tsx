@@ -4,7 +4,7 @@ import { MatchPage } from "../pages/MatchPage";
 import { HistoryPage } from "../pages/HistoryPage";
 import { MatchProvider } from "../context/MatchContext";
 
-import { NavBar } from "../components/navbar/NavBar";
+import { NavBar } from "./components/navbar/NavBar";
 export const router = createBrowserRouter([
   {
     element: (

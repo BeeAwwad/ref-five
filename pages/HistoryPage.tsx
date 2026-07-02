@@ -1,4 +1,4 @@
-import { MatchHistory } from "../components/match-history/MatchHistory";
+import { MatchHistory } from "../src/components/match-history/MatchHistory";
 export const HistoryPage = () => {
   return (
     <section>

@@ -1,5 +1,5 @@
 import { TeamScore } from "./TeamScore";
-import { useMatch } from "../../hooks/useMatch";
+import { useMatch } from "../../../hooks/useMatch";
 
 export function Scoreboard() {
   const { match, updateScore } = useMatch();
