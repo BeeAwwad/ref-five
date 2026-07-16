@@ -3,10 +3,11 @@ import { Timer } from "../src/components/timer/Timer";
 import { Cards } from "../src/components/cards/Cards";
 import { useMatch } from "../hooks/useMatch";
 import { Link } from "react-router-dom";
-import { Button } from "../src/components/ui/button";
+import MatchAction from "../src/components/match/MatchAction";
+import OversControl from "../src/components/match/OversControl";
 
 export const MatchPage = () => {
-  const { match, endMatch } = useMatch();
+  const { match } = useMatch();
 
   if (!match)
     return (
@@ -26,17 +27,10 @@ export const MatchPage = () => {
   return (
     <section>
       <Scoreboard />
-      <Timer seconds={match?.duration || 0} />
+      <Timer />
       <Cards />
-      <div className="flex justify-center mt-10">
-        <Button
-          className="rounded-none text-base px-7 py-5"
-          size={"lg"}
-          onClick={endMatch}
-        >
-          End Match
-        </Button>
-      </div>
+      <OversControl />
+      <MatchAction />
     </section>
   );
 };

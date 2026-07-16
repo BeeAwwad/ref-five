@@ -1,8 +1,21 @@
 import { useMatch } from "../../../hooks/useMatch";
 import { useState } from "react";
-import type { Color } from "../../../types/types";
+import {
+  type MatchType,
+  type Color,
+  type MatchData,
+  type MatchSettings,
+} from "../../../types/types";
 import { Link, useNavigate } from "react-router-dom";
-import { Card, CardContent, CardFooter } from "../ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -30,13 +43,14 @@ export function MatchSetupForm() {
   const [minutes, setMinutes] = useState(10);
   const [teamAName, setTeamAName] = useState("Team A");
   const [teamBName, setTeamBName] = useState("Team B");
+  const [matchType, setMatchType] = useState<MatchType>("training");
+  const [initialOvers, setInitialOvers] = useState(2);
   const [teamAColor, setTeamAColor] = useState<Color | null>(
     availableColors[0],
   );
   const [teamBColor, setTeamBColor] = useState<Color | null>(
     availableColors[1],
   );
-
   const { match, setMatch } = useMatch();
   const hasActiveMatch = Boolean(match);
   const teamASelectableColors = availableColors.filter(
@@ -47,16 +61,20 @@ export function MatchSetupForm() {
   );
 
   function handleCreate() {
-    if (hasActiveMatch) {
-      return;
-    }
+    if (match || !teamAColor || !teamBColor) return;
 
-    if (!teamAColor || !teamBColor) {
-      return;
-    }
-
-    setMatch({
+    const settings: MatchSettings = {
+      type: matchType,
       duration: minutes * 60,
+      halves: matchType === "training" ? 1 : 2,
+      oversEnabled: matchType === "training",
+      initialOvers: matchType === "training" ? initialOvers : 0,
+      cardsEnabled: matchType === "professional",
+    };
+
+    const newMatch: MatchData = {
+      id: crypto.randomUUID(),
+      settings,
       teamA: {
         id: crypto.randomUUID(),
         name: teamAName.trim() || "Team A",
@@ -69,8 +87,13 @@ export function MatchSetupForm() {
         color: teamBColor.color,
         score: 0,
       },
-    });
-
+      currentHalf: 1,
+      timeLeft: settings.duration,
+      status: "waiting",
+      oversRemaining: settings.initialOvers,
+      events: [],
+    };
+    setMatch(newMatch);
     navigate("/match");
   }
 
@@ -95,8 +118,33 @@ export function MatchSetupForm() {
   }
 
   return (
-    <Card className="rounded-none mx-5 md:mx-20 mb-10">
-      <CardContent className="pt-5 px-0">
+    <Card className="rounded-none mx-5 md:mx-20 mb-10 font-mono">
+      <CardHeader className="py-5 sm:px-10 pb-5">
+        <CardTitle className="font-mono uppercase font-black tracking-widest">
+          {matchType === "training" ? "Training" : "Professional"}
+        </CardTitle>
+        <CardDescription>
+          {matchType === "training"
+            ? "Create a training match"
+            : "Create a professional match"}
+        </CardDescription>
+        <CardAction>
+          <Button
+            className={"underline"}
+            variant="link"
+            onClick={() =>
+              setMatchType(
+                matchType === "training" ? "professional" : "training",
+              )
+            }
+          >
+            {matchType === "training"
+              ? "Switch to Professional"
+              : "Switch to Training"}
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent className="px-0">
         {hasActiveMatch ? (
           <Item className="flex flex-col px-5 sm:px-10 mb-10">
             <ItemContent>
@@ -124,6 +172,20 @@ export function MatchSetupForm() {
             </ItemActions>
           </Item>
         ) : null}
+        {matchType === "training" && (
+          <Field className="px-5 sm:px-10 pb-5">
+            <FieldLabel>Number of Overs</FieldLabel>
+            <Input
+              className="rounded-none"
+              type="number"
+              value={initialOvers}
+              defaultValue={2}
+              onChange={(e) =>
+                setInitialOvers(Math.max(2, Number(e.target.value)))
+              }
+            />
+          </Field>
+        )}
         <Field className="px-5 sm:px-10 pb-5">
           <FieldLabel>Match duration (minutes)</FieldLabel>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">

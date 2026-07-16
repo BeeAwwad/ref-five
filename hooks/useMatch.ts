@@ -11,9 +11,18 @@ interface MatchContextType {
   setMatch: Dispatch<SetStateAction<MatchData | null>>;
 
   history: MatchHistory[];
-
+  startTimer: () => void;
+  pauseTimer: () => void;
+  resetTimer: () => void;
+  updateScore: (teamId: string, delta?: number) => void;
+  addMatchEvent: (
+    type: "goal" | "yellow-card" | "red-card",
+    teamId: string,
+    playerNumber?: number,
+  ) => void;
+  decrementOvers: () => void;
+  advanceHalf: () => void;
   endMatch: () => void;
-  updateScore: (team: string, delta?: number) => void;
 }
 
 export const MatchContext = createContext<MatchContextType | null>(null);
@@ -22,7 +31,7 @@ export function useMatch() {
   const context = useContext(MatchContext);
 
   if (!context) {
-    throw new Error("Must be used inside provider");
+    throw new Error("useMatch must be used inside a MatchProvider block.");
   }
 
   return context;

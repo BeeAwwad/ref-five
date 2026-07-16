@@ -16,7 +16,6 @@ export function Cards() {
   const timeoutRef = useRef<number | null>(null);
   const isClosing = useRef(false);
 
-  // Entry animation
   useGSAP(
     () => {
       if (!card) return;
@@ -29,7 +28,6 @@ export function Cards() {
 
       gsap.set(cardRef.current, {
         y: 500,
-        rotation: -25,
         scale: 0.5,
         opacity: 0,
         transformOrigin: "bottom center",
@@ -42,11 +40,10 @@ export function Cards() {
         duration: 0.2,
       }).to(cardRef.current, {
         y: 0,
-        rotation: 0,
         scale: 1,
         opacity: 1,
         duration: 0.6,
-        ease: "back.out(1.8)",
+        ease: "back.inOut",
       });
 
       timeoutRef.current = window.setTimeout(() => {
@@ -65,7 +62,6 @@ export function Cards() {
   }
 
   function animateOut() {
-    // prevent double close
     if (isClosing.current) return;
 
     isClosing.current = true;
@@ -83,7 +79,7 @@ export function Cards() {
 
     tl.to(cardRef.current, {
       y: 400,
-      rotation: 15,
+      // rotation: 15,
       opacity: 0,
       duration: 0.35,
       ease: "power2.in",
@@ -129,7 +125,7 @@ export function Cards() {
       )}
 
       <Button
-        className="rounded-none text-base px-7 py-5 bg-yellow-400"
+        className="rounded-none text-base px-5 py-5 bg-yellow-400"
         size="lg"
         onClick={() => showCard("yellow")}
       >
@@ -137,7 +133,7 @@ export function Cards() {
       </Button>
 
       <Button
-        className="rounded-none text-base px-7 py-5 bg-red-600"
+        className="rounded-none text-base px-5 py-5 bg-red-600"
         size="lg"
         onClick={() => showCard("red")}
       >

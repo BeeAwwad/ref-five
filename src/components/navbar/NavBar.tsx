@@ -6,7 +6,7 @@ export const NavBar = () => {
       <div>
         <span className="font-semibold">Ref-5</span>
       </div>
-      <nav className="flex gap-4 px-4 ">
+      <nav className="flex gap-4 px-4 font-mono">
         <Link
           className="text-sm sm:text-base border-b-2 border-white hover:border-slate-700 active:border-slate-800 transition-transform"
           to={"/"}
