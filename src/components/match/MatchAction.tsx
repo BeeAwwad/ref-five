@@ -11,7 +11,9 @@ const MatchAction = () => {
     }
     return (
       match.status === "finished" ||
-      (match.timeLeft === 0 && match.oversRemaining === 0)
+      (match.timeLeft === 0 && match.oversRemaining === 0) ||
+      match.teamA.score - match.teamB.score >= 2 ||
+      match.teamB.score - match.teamA.score >= 2
     );
   };
 
@@ -33,14 +35,14 @@ const MatchAction = () => {
   return (
     <div className="flex flex-col items-center gap-2 mt-10 px-10">
       <Button
-        className="w-full max-w-md rounded-none bg-red-600 hover:bg-red-700 text-white font-semibold py-6 text-lg"
+        className="w-full max-w-md rounded-none bg-primary-300 hover:bg-primary-300 transition-all hover:scale-105 text-white font-semibold py-6 text-lg"
         onClick={endMatch}
         disabled={disabled}
       >
         Finish Match
       </Button>
       {disabled && reason && (
-        <span className="text-xs text-red-500 italic font-medium">
+        <span className="text-xs text-primary-300 font-medium font-mono">
           Disabled: {reason}
         </span>
       )}
