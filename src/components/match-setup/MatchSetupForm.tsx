@@ -118,8 +118,11 @@ export function MatchSetupForm() {
   }
 
   return (
-    <Card className="rounded-none mx-5 md:mx-20 mb-10 font-mono">
-      <CardHeader className="py-5 sm:px-10 pb-5">
+    <Card
+      className="rounded-none border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white overflow-hidden
+                mx-5 sm:mx-20 mb-10 font-mono max-w-2xl xl:max-w-4xl md:mx-auto"
+    >
+      <CardHeader className="py-5 sm:px-10 pb-5 border-b-2 border-black">
         <CardTitle className="font-mono uppercase font-black tracking-widest">
           {matchType === "training" ? "Training" : "Professional"}
         </CardTitle>
@@ -218,7 +221,7 @@ export function MatchSetupForm() {
             </div>
           </div>
         </Field>
-        <div className="border-t py-5 space-y-5">
+        <div className="border-t-2 border-black py-5 space-y-5">
           <Field className="px-5 sm:px-10">
             <FieldLabel>Team A name</FieldLabel>
             <Input
@@ -270,7 +273,7 @@ export function MatchSetupForm() {
           </Field>
         </div>
 
-        <div className="border-t space-y-5 py-5">
+        <div className="border-t-2 border-black space-y-5 py-5">
           <Field className="px-5 sm:px-10">
             <FieldLabel>Team B name</FieldLabel>
             <Input
@@ -324,7 +327,7 @@ export function MatchSetupForm() {
           </Field>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="border-t-2 border-black">
         <Button
           className={"mx-auto w-full max-w-lg rounded-none"}
           type="button"

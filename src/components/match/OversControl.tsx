@@ -3,13 +3,12 @@ import { Button } from "../ui/button";
 
 const OversControl = () => {
   const { decrementOvers, match } = useMatch();
-  console.log(match?.timeLeft);
   if (!match || match.settings.type !== "training" || match.timeLeft > 0)
     return null;
   const isExhausted = match.oversRemaining === 0;
   console.log("overs remaining", match.oversRemaining);
   return (
-    <div className="mx-auto max-w-sm mt-8 p-6 border rounded bg-slate-50 text-center space-y-4">
+    <div className="mx-auto max-w-72 md:max-w-sm mt-8 p-6 border bg-slate-50 text-center space-y-4">
       <div>
         <h3 className="text-xl font-bold">Overs Countdown</h3>
         <p className="text-xs text-muted-foreground">
@@ -36,7 +35,7 @@ const OversControl = () => {
           Ball Out (-1 Over)
         </Button>
       ) : (
-        <div className="p-3 bg-red-100 text-red-800 text-xs font-bold uppercase tracking-widest rounded">
+        <div className="p-3 bg-red-100 text-red-800 text-xs font-bold uppercase tracking-widest">
           Match State Locked - Overs Complete
         </div>
       )}

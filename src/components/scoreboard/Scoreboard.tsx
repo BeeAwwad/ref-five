@@ -7,13 +7,12 @@ export function Scoreboard() {
   if (!match) {
     return null;
   }
-  console.log("team A score: ", match.teamA.score);
-  console.log("team B score: ", match.teamB.score);
   return (
-    <div className="flex justify-center gap-10 mx-10">
+    <div className="flex justify-center gap-10 pb-10 border-b border-black">
       <TeamScore
         name={match.teamA.name}
         score={match.teamA.score}
+        color={match.teamA.color}
         onGoal={() => updateScore(match.teamA.id, 1)}
         onUndo={() => updateScore(match.teamA.id, -1)}
       />
@@ -21,6 +20,7 @@ export function Scoreboard() {
       <TeamScore
         name={match.teamB.name}
         score={match.teamB.score}
+        color={match.teamB.color}
         onGoal={() => updateScore(match.teamB.id, 1)}
         onUndo={() => updateScore(match.teamB.id, -1)}
       />

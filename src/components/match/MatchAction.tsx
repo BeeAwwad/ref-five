@@ -35,7 +35,7 @@ const MatchAction = () => {
   return (
     <div className="flex flex-col items-center gap-2 mt-10 px-10">
       <Button
-        className="w-full max-w-md rounded-none bg-primary-300 hover:bg-primary-300 transition-all hover:scale-105 text-white font-semibold py-6 text-lg"
+        className="w-full max-w-md rounded-none bg-primary-300 hover:bg-primary-300 transition-all hover:scale-105 text-white font-semibold py-6 text-lg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)]"
         onClick={endMatch}
         disabled={disabled}
       >

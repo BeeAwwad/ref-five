@@ -4,20 +4,21 @@ import { Badge } from "../ui/badge";
 
 export function MatchHistory() {
   const { history } = useMatch();
-  console.log("history", history);
+  const sortedHistory = history.sort((b, a) => a.endedAt - b.endedAt);
+  console.log("sorted history", sortedHistory);
   return (
     <div className="mx-5 md:mx-20 mb-10 space-y-6">
       <h2 className="scroll-m-20 py-5 text-center text-4xl font-extrabold tracking-tight text-balance uppercase">
         Match History
       </h2>
 
-      {!history || history.length === 0 ? (
+      {!sortedHistory || sortedHistory.length === 0 ? (
         <div className="border border-dashed border-slate-300 p-10 text-center font-mono text-sm text-muted-foreground rounded-none">
           No matches archived in local data banks.
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6">
-          {history.map((match) => {
+        <div className="grid grid-cols-1 gap-6 max-w-2xl xl:max-w-4xl md:mx-auto">
+          {sortedHistory.map((match) => {
             const isTraining = match.settings.type === "training";
 
             const allEvents = match.events || [];

@@ -151,7 +151,11 @@ export function MatchProvider({ children }: { children: React.ReactNode }) {
 
   const advanceHalf = () => {
     setMatch((current) => {
-      if (!current || current.status !== "halftime") return current;
+      if (!current) return current;
+
+      const canAdvance =
+        current.status === "halftime" || current.status === "waiting-overs";
+      if (!canAdvance) return current;
 
       return {
         ...current,
