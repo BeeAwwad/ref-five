@@ -167,7 +167,9 @@ export function MatchSetupForm() {
               <Button
                 type="button"
                 size="lg"
-                className={"rounded-none bg-primary-300"}
+                className={
+                  "rounded-none bg-primary-400 border-2 hover:bg-primary-300 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                }
                 onClick={() => setMatch(null)}
               >
                 End Active Match?
@@ -190,7 +192,12 @@ export function MatchSetupForm() {
           </Field>
         )}
         <Field className="px-5 sm:px-10 pb-5">
-          <FieldLabel>Match duration (minutes)</FieldLabel>
+          <FieldLabel>
+            {match?.settings.type === "professional"
+              ? "Half duration"
+              : "Match duration"}{" "}
+            (minutes)
+          </FieldLabel>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <Input
               className="rounded-none"
@@ -329,7 +336,9 @@ export function MatchSetupForm() {
       </CardContent>
       <CardFooter className="border-t-2 border-black">
         <Button
-          className={"mx-auto w-full max-w-lg rounded-none"}
+          className={
+            "mx-auto w-full max-w-lg rounded-none bg-primary-400 hover:bg-primary-300 active:bg-primary-300 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+          }
           type="button"
           onClick={handleCreate}
           disabled={hasActiveMatch}

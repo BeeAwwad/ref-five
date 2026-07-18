@@ -5,7 +5,6 @@ import { Badge } from "../ui/badge";
 export function MatchHistory() {
   const { history } = useMatch();
   const sortedHistory = history.sort((b, a) => a.endedAt - b.endedAt);
-  console.log("sorted history", sortedHistory);
   return (
     <div className="mx-5 md:mx-20 mb-10 space-y-6">
       <h2 className="scroll-m-20 py-5 text-center text-4xl font-extrabold tracking-tight text-balance uppercase">

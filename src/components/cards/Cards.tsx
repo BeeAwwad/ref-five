@@ -64,7 +64,6 @@ export function Cards() {
 
     const type = color === "yellow" ? "yellow-card" : "red-card";
     const numericPlayer = playerNum ? parseInt(playerNum, 10) : undefined;
-
     const isTraining = match?.settings?.type === "training";
 
     if (isTraining) {

@@ -16,31 +16,36 @@ export function TimerControls() {
 
   let actionText = "Start";
   let handleAction = startTimer;
-  let buttonStyle = "bg-black text-white hover:bg-slate-800";
+
+  const neoBrutalBase =
+    "border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all";
+
+  let buttonStyle = `bg-primary-400 text-white hover:bg-primary-200 ${neoBrutalBase}`;
 
   if (match.status === "running") {
     actionText = "Pause";
     handleAction = pauseTimer;
-    buttonStyle = "bg-primary-200 text-white hover:bg-primary-300";
+    buttonStyle = `bg-primary-200 text-white hover:bg-primary-300 ${neoBrutalBase}`;
   } else if (match.status === "halftime") {
     actionText = "Start 2nd Half";
     handleAction = advanceHalf;
-    buttonStyle = "bg-primary-200 text-white hover:bg-primary-300";
+    buttonStyle = `bg-primary-200 text-white hover:bg-primary-300 ${neoBrutalBase}`;
   } else if (match.status === "waiting-overs") {
     if (match.oversRemaining > 0) {
       actionText = `Deduct Over (${match.oversRemaining} Left)`;
       handleAction = decrementOvers;
-      buttonStyle = "bg-amber-500 hover:bg-amber-600 text-black font-bold";
+      buttonStyle = `bg-amber-500 hover:bg-amber-600 text-black font-bold ${neoBrutalBase}`;
     } else {
       actionText = "Overs Exhausted";
       handleAction = () => {};
       buttonStyle =
-        "bg-red-100 text-red-800 cursor-not-allowed border border-red-300";
+        "bg-red-100 text-red-800 cursor-not-allowed border-2 border-red-300 shadow-none";
     }
   } else if (match.status === "finished") {
     actionText = "Match Finished";
     handleAction = () => {};
-    buttonStyle = "bg-slate-200 text-slate-500 cursor-not-allowed";
+    buttonStyle =
+      "bg-slate-200 text-slate-500 cursor-not-allowed border-2 border-slate-300 shadow-none";
   }
 
   const isDisabled =
@@ -53,7 +58,7 @@ export function TimerControls() {
         type="button"
         size="lg"
         disabled={isDisabled}
-        className={`rounded-none transition-colors duration-200 text-base px-5 py-5 md:col-span-1 md:order-2 ${buttonStyle}`}
+        className={`rounded-none text-base px-5 py-5 md:col-span-1 md:order-2 ${buttonStyle}`}
         onClick={handleAction}
       >
         {actionText}
@@ -68,7 +73,7 @@ export function TimerControls() {
       <Button
         type="button"
         size="lg"
-        className="rounded-none active:bg-primary-300 hover:bg-primary-300 active:text-white hover:text-white text-base px-5 py-5 md:col-span-1 order-3 border border-black/10"
+        className={`rounded-none text-base px-5 py-5 md:col-span-1 order-3 bg-white text-black hover:bg-primary-400 hover:text-white ${neoBrutalBase}`}
         onClick={resetTimer}
       >
         Reset

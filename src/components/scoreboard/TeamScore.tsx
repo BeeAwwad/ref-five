@@ -84,7 +84,6 @@ export function TeamScore({ name, score, color, onGoal, onUndo }: Props) {
 
   return (
     <div className="flex flex-col gap-4 text-center p-4 border border-transparent">
-      {/* Neo-Brutalist Goal Overlay */}
       {showOverlay && (
         <div
           ref={overlayRef}
@@ -112,7 +111,7 @@ export function TeamScore({ name, score, color, onGoal, onUndo }: Props) {
           type="button"
           variant="outline"
           size="lg"
-          className="rounded-none active:bg-primary-300 hover:bg-primary-300 active:text-white hover:text-white"
+          className="rounded-none active:bg-primary-300 hover:bg-primary-300 active:text-white hover:text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
           onClick={onGoal}
         >
           Add Goal
@@ -122,7 +121,7 @@ export function TeamScore({ name, score, color, onGoal, onUndo }: Props) {
             type="button"
             variant="outline"
             size="lg"
-            className="rounded-none active:bg-primary-200 hover:bg-primary-200 active:text-white hover:text-white"
+            className="rounded-none active:bg-primary-200 hover:bg-primary-200 active:text-white hover:text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
             onClick={onUndo}
           >
             Cancel goal

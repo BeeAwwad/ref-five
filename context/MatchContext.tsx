@@ -115,7 +115,7 @@ export function MatchProvider({ children }: { children: React.ReactNode }) {
     playerNumber?: number,
   ) => {
     setMatch((current) => {
-      if (!current || isActionAllowed(current)) return current;
+      if (!current || !isActionAllowed(current)) return current;
       if (type === "goal") return current;
       if (!current.settings.cardsEnabled) return current;
 
