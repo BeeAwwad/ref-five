@@ -106,45 +106,47 @@ export function Cards() {
 
   return (
     <div className="pt-8 pb-8 border-b border-black px-10 bg-slate-50/30">
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
-        <div className="flex border-2 w-fit mx-auto md:mx-0 border-black p-0.5 bg-slate-100 max-w-xs">
-          <button
-            type="button"
-            onClick={() => setActiveTeamId(match.teamA.id)}
-            className={`px-3 py-1 text-xs font-mono font-bold uppercase transition-all rounded-none truncate ${
-              activeTeamId === match.teamA.id
-                ? "bg-black text-white"
-                : "text-slate-600 hover:text-black"
-            }`}
-          >
-            {match.teamA.name}
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTeamId(match.teamB.id)}
-            className={`px-3 py-1 text-xs font-mono font-bold uppercase transition-all rounded-none truncate ${
-              activeTeamId === match.teamB.id
-                ? "bg-black text-white"
-                : "text-slate-600 hover:text-black"
-            }`}
-          >
-            {match.teamB.name}
-          </button>
-        </div>
+      {match.settings.type === "professional" && (
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div className="flex border-2 w-fit mx-auto md:mx-0 border-black p-0.5 bg-slate-100 max-w-xs">
+            <button
+              type="button"
+              onClick={() => setActiveTeamId(match.teamA.id)}
+              className={`px-3 py-1 text-xs font-mono font-bold uppercase transition-all rounded-none truncate ${
+                activeTeamId === match.teamA.id
+                  ? "bg-black text-white"
+                  : "text-slate-600 hover:text-black"
+              }`}
+            >
+              {match.teamA.name}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTeamId(match.teamB.id)}
+              className={`px-3 py-1 text-xs font-mono font-bold uppercase transition-all rounded-none truncate ${
+                activeTeamId === match.teamB.id
+                  ? "bg-black text-white"
+                  : "text-slate-600 hover:text-black"
+              }`}
+            >
+              {match.teamB.name}
+            </button>
+          </div>
 
-        <div className="flex items-center gap-2 justify-center md:justify-end">
-          <span className="font-mono text-[10px] font-bold uppercase text-slate-400">
-            Player No.
-          </span>
-          <input
-            type="number"
-            placeholder="Jersey #"
-            value={playerNum}
-            onChange={(e) => setPlayerNum(e.target.value)}
-            className="w-20 border border-black p-1 font-mono text-xs rounded-none text-center outline-none focus:bg-slate-50"
-          />
+          <div className="flex items-center gap-2 justify-center md:justify-end">
+            <span className="font-mono text-[10px] font-bold uppercase text-slate-400">
+              Player No.
+            </span>
+            <input
+              type="number"
+              placeholder="Jersey #"
+              value={playerNum}
+              onChange={(e) => setPlayerNum(e.target.value)}
+              className="w-20 border border-black p-1 font-mono text-base sm:text-xs rounded-none text-center outline-none focus:bg-slate-50"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {card && (
         <div
@@ -168,11 +170,13 @@ export function Cards() {
               card === "yellow" ? "bg-yellow-400" : "bg-red-600"
             }`}
           >
-            <span
-              className={`font-mono text-xl font-black uppercase tracking-widest p-2 px-4 border-2 border-black bg-white ${card === "yellow" ? "text-yellow-600" : "text-red-600"}`}
-            >
-              #{playerNum || "?"}
-            </span>
+            {match.settings.type === "professional" && (
+              <span
+                className={`font-mono text-xl font-black uppercase tracking-widest p-2 px-4 border-2 border-black bg-white ${card === "yellow" ? "text-yellow-600" : "text-red-600"}`}
+              >
+                #{playerNum || "?"}
+              </span>
+            )}
             <span className="font-mono text-[11px] font-bold uppercase text-black mt-2 tracking-wide max-w-50 truncate">
               {selectedTeamName}
             </span>
