@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Button } from "../ui/button";
 import { useMatch } from "../../../hooks/useMatch";
+import { JerseyPicker } from "./JerseyPicker";
 
 type CardType = "yellow" | "red" | null;
 
@@ -133,18 +134,7 @@ export function Cards() {
             </button>
           </div>
 
-          <div className="flex items-center gap-2 justify-center md:justify-end">
-            <span className="font-mono text-[10px] font-bold uppercase text-slate-400">
-              Player No.
-            </span>
-            <input
-              type="number"
-              placeholder="Jersey #"
-              value={playerNum}
-              onChange={(e) => setPlayerNum(e.target.value)}
-              className="w-20 border border-black p-1 font-mono text-base sm:text-xs rounded-none text-center outline-none focus:bg-slate-50"
-            />
-          </div>
+          <JerseyPicker value={playerNum} onChange={setPlayerNum} />
         </div>
       )}
 

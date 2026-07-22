@@ -168,7 +168,7 @@ export function MatchSetupForm() {
                 type="button"
                 size="lg"
                 className={
-                  "rounded-none bg-primary-400 border-2 hover:bg-primary-300 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+                  "rounded-none bg-primary-300 border-2 hover:bg-primary-300 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
                 }
                 onClick={() => setMatch(null)}
               >
