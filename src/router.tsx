@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import { SetupPage } from "../pages/SetupPage";
 import { MatchPage } from "../pages/MatchPage";
 import { HistoryPage } from "../pages/HistoryPage";
+import { HeadsOrTailsPage } from "../pages/HeadsOrTails";
 import { MatchProvider } from "../context/MatchContext";
 
 import { NavBar } from "./components/navbar/NavBar";
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "/history",
         element: <HistoryPage />,
+      },
+      {
+        path: "/heads-or-tails",
+        element: <HeadsOrTailsPage />,
       },
     ],
   },

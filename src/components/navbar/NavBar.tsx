@@ -25,6 +25,12 @@ export const NavBar = () => {
         >
           History
         </Link>
+        <Link
+          className="text-sm sm:text-base border-b-2 border-white hover:border-slate-700 active:border-slate-800 transition-transform"
+          to={"/heads-or-tails"}
+        >
+          Heads/Tails
+        </Link>
       </nav>
     </header>
   );

@@ -161,15 +161,17 @@ export function Cards() {
             }`}
           >
             {match.settings.type === "professional" && (
-              <span
-                className={`font-mono text-xl font-black uppercase tracking-widest p-2 px-4 border-2 border-black bg-white ${card === "yellow" ? "text-yellow-600" : "text-red-600"}`}
-              >
-                #{playerNum || "?"}
-              </span>
+              <>
+                <span
+                  className={`font-mono text-xl font-black uppercase tracking-widest p-2 px-4 border-2 border-black bg-white ${card === "yellow" ? "text-yellow-600" : "text-red-600"}`}
+                >
+                  #{playerNum || "?"}
+                </span>
+                <span className="font-mono text-[11px] font-bold uppercase text-black mt-2 tracking-wide max-w-50 truncate">
+                  {selectedTeamName}
+                </span>
+              </>
             )}
-            <span className="font-mono text-[11px] font-bold uppercase text-black mt-2 tracking-wide max-w-50 truncate">
-              {selectedTeamName}
-            </span>
           </div>
         </div>
       )}
