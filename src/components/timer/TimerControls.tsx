@@ -1,9 +1,6 @@
 import { useMatch } from "../../../hooks/useMatch";
 import { Button } from "../ui/button";
 import { formatTime } from "../../../utils/time";
-import { Volume2, VolumeX } from "lucide-react";
-import { useSound } from "../../../hooks/useSound";
-import { useEffect, useRef } from "react";
 
 export function TimerControls() {
   const {
@@ -14,24 +11,6 @@ export function TimerControls() {
     decrementOvers,
     match,
   } = useMatch();
-
-  const { playSound, soundEnabled, toggleSound } = useSound("/whistle.mp3");
-  const previousStatus = useRef(match?.status);
-
-  useEffect(() => {
-    if (!match) return;
-
-    const currentStatus = match.status;
-    const prev = previousStatus.current;
-
-    if (prev !== "running" && currentStatus === "running") {
-      playSound();
-    } else if (prev === "running" && currentStatus === "finished") {
-      playSound();
-    }
-
-    previousStatus.current = currentStatus;
-  }, [match?.status, playSound]);
 
   if (!match) return null;
 
@@ -74,52 +53,31 @@ export function TimerControls() {
     (match.status === "waiting-overs" && match.oversRemaining <= 0);
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {/* Sound Toggle Toolbar Option */}
-      <div className="flex items-center gap-2 self-end mr-10">
-        <Button
-          type="button"
-          size="sm"
-          onClick={toggleSound}
-          className={`rounded-none bg-white text-black hover:bg-slate-100 text-xs gap-1.5 ${neoBrutalBase}`}
-        >
-          {soundEnabled ? (
-            <>
-              <Volume2 className="w-4 h-4" /> Sound On
-            </>
-          ) : (
-            <>
-              <VolumeX className="w-4 h-4 text-red-500" /> Sound Muted
-            </>
-          )}
-        </Button>
-      </div>
-      <div className="grid gap-5 justify-center items-center grid-cols-1 md:grid-cols-2 md:grid-rows-2 mx-10">
-        <Button
-          type="button"
-          size="lg"
-          disabled={isDisabled}
-          className={`rounded-none text-base px-5 py-5 md:col-span-1 md:order-2 ${buttonStyle}`}
-          onClick={handleAction}
-        >
-          {actionText}
-        </Button>
+    <div className="grid gap-5 justify-center items-center grid-cols-1 md:grid-cols-2 md:grid-rows-2 mx-10">
+      <Button
+        type="button"
+        size="lg"
+        disabled={isDisabled}
+        className={`rounded-none text-base px-5 py-5 md:col-span-1 md:order-2 ${buttonStyle}`}
+        onClick={handleAction}
+      >
+        {actionText}
+      </Button>
 
-        <h2 className="scroll-m-20 text-6xl font-semibold tracking-tight text-center md:col-span-2 md:order-1 font-mono">
-          {match.status === "waiting-overs"
-            ? `OVERS: ${match.oversRemaining}`
-            : formatTime(match.timeLeft)}
-        </h2>
+      <h2 className="scroll-m-20 text-6xl font-semibold tracking-tight text-center md:col-span-2 md:order-1 font-mono">
+        {match.status === "waiting-overs"
+          ? `OVERS: ${match.oversRemaining}`
+          : formatTime(match.timeLeft)}
+      </h2>
 
-        <Button
-          type="button"
-          size="lg"
-          className={`rounded-none text-base px-5 py-5 md:col-span-1 order-3 bg-white text-black hover:bg-primary-400 hover:text-white ${neoBrutalBase}`}
-          onClick={resetTimer}
-        >
-          Reset
-        </Button>
-      </div>
+      <Button
+        type="button"
+        size="lg"
+        className={`rounded-none text-base px-5 py-5 md:col-span-1 order-3 bg-white text-black hover:bg-primary-400 hover:text-white ${neoBrutalBase}`}
+        onClick={resetTimer}
+      >
+        Reset
+      </Button>
     </div>
   );
 }

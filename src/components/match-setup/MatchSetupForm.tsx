@@ -9,7 +9,6 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -52,6 +51,7 @@ export function MatchSetupForm() {
     availableColors[1],
   );
   const { match, setMatch } = useMatch();
+
   const hasActiveMatch = Boolean(match);
   const teamASelectableColors = availableColors.filter(
     (color) => color.color !== teamBColor?.color,
@@ -123,29 +123,25 @@ export function MatchSetupForm() {
                 mx-5 sm:mx-20 mb-10 font-mono max-w-2xl xl:max-w-4xl md:mx-auto"
     >
       <CardHeader className="py-5 sm:px-10 pb-5 border-b-2 border-black">
-        <CardTitle className="font-mono uppercase font-black tracking-widest">
+        <CardTitle className="font-mono text-center md:text-start uppercase font-black tracking-widest">
           {matchType === "training" ? "Training" : "Professional"}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-center md:text-start">
           {matchType === "training"
             ? "Create a training match"
             : "Create a professional match"}
         </CardDescription>
-        <CardAction>
-          <Button
-            className={"underline"}
-            variant="link"
-            onClick={() =>
-              setMatchType(
-                matchType === "training" ? "professional" : "training",
-              )
-            }
-          >
-            {matchType === "training"
-              ? "Switch to Professional"
-              : "Switch to Training"}
-          </Button>
-        </CardAction>
+        <Button
+          className={"underline md:ml-auto"}
+          variant="link"
+          onClick={() =>
+            setMatchType(matchType === "training" ? "professional" : "training")
+          }
+        >
+          {matchType === "training"
+            ? "Switch to Professional"
+            : "Switch to Training"}
+        </Button>
       </CardHeader>
       <CardContent className="px-0">
         {hasActiveMatch ? (
@@ -193,9 +189,7 @@ export function MatchSetupForm() {
         )}
         <Field className="px-5 sm:px-10 pb-5">
           <FieldLabel>
-            {match?.settings.type === "professional"
-              ? "Half duration"
-              : "Match duration"}{" "}
+            {matchType === "professional" ? "Half duration" : "Match duration"}{" "}
             (minutes)
           </FieldLabel>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">

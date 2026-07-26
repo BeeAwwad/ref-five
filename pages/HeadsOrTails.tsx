@@ -1,6 +1,9 @@
 import { useState, useRef } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { Button } from "../src/components/ui/button";
+
+gsap.registerPlugin(useGSAP);
 
 type Outcome = "heads" | "tails" | null;
 type Rule = "heads-out" | "tails-out";
@@ -34,6 +37,10 @@ export function HeadsOrTailsPage() {
 
   const coinRef = useRef<HTMLDivElement>(null);
   const currentRotationRef = useRef<number>(0);
+
+  useGSAP(() => {
+    gsap.set(coinRef.current, { y: 0, rotateX: 0 });
+  });
 
   const handleTeamAChoiceChange = (choice: "heads" | "tails") => {
     setTeamA((prev) => ({ ...prev, choice }));
@@ -69,7 +76,6 @@ export function HeadsOrTailsPage() {
 
     currentRotationRef.current = finalRotation;
 
-    // 3. GSAP Timeline Animation (3D Flip + Height Bounce)
     const tl = gsap.timeline({
       onComplete: () => {
         setIsFlipping(false);
@@ -78,7 +84,6 @@ export function HeadsOrTailsPage() {
       },
     });
 
-    // Elevation (Up and Down motion)
     tl.to(coinRef.current, {
       y: -180,
       duration: 1.2,
@@ -89,7 +94,6 @@ export function HeadsOrTailsPage() {
       ease: "bounce.out",
     });
 
-    // 3D Rotation along the X-axis
     tl.to(
       coinRef.current,
       {
@@ -97,7 +101,7 @@ export function HeadsOrTailsPage() {
         duration: 2.2,
         ease: "power3.inOut",
       },
-      0, // Start concurrently with y-axis translation
+      0,
     );
   };
 
@@ -189,7 +193,6 @@ export function HeadsOrTailsPage() {
         )}
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Team A Card */}
           <div className="bg-primary-500 p-4">
             <p>Team A</p>
             <div className="flex items-center justify-between">
