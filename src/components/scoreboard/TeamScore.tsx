@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { Button } from "../ui/button";
+
+gsap.registerPlugin(useGSAP);
 
 interface Props {
   name: string;
@@ -24,63 +27,61 @@ export function TeamScore({ name, score, color, onGoal, onUndo }: Props) {
     prevScoreRef.current = score;
   }, [score]);
 
-  useEffect(() => {
-    if (showOverlay && overlayRef.current && textRef.current) {
-      const tl = gsap.timeline({
-        onComplete: () => {
-          setShowOverlay(false);
+  useGSAP(() => {
+    if (!showOverlay || !overlayRef.current || !textRef.current) return;
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setShowOverlay(false);
+      },
+    });
+
+    gsap.set(overlayRef.current, {
+      opacity: 0,
+      scale: 1,
+      backgroundColor: color,
+    });
+
+    gsap.set(textRef.current, {
+      scale: 1,
+      rotation: 0,
+      x: 0,
+      y: 0,
+    });
+
+    tl.fromTo(
+      overlayRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.15, ease: "power2.out" },
+    )
+      .fromTo(
+        textRef.current,
+        { scale: 0.3, rotation: -10, y: 50 },
+        {
+          scale: 1,
+          rotation: 3,
+          y: 0,
+          duration: 0.4,
+          ease: "back.out(1.7)",
         },
-      });
-
-      gsap.set(overlayRef.current, {
-        opacity: 0,
-        scale: 1,
-        backgroundColor: color,
-      });
-
-      gsap.set(textRef.current, {
-        scale: 1,
-        rotation: 0,
-        x: 0,
-        y: 0,
-      });
-
-      tl.fromTo(
-        overlayRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.15, ease: "power2.out" },
+        "-=0.1",
       )
-        .fromTo(
-          textRef.current,
-          { scale: 0.3, rotation: -10, y: 50 },
-          {
-            scale: 1,
-            rotation: 3,
-            y: 0,
-            duration: 0.4,
-            ease: "back.out(1.7)",
-          },
-          "-=0.1", // Slight overlap with background fade-in
-        )
-        // Quick retro shake/vibration effect
-        .to(textRef.current, {
-          x: "random(-6, 6)",
-          y: "random(-6, 6)",
-          duration: 0.05,
-          repeat: 5,
-          yoyo: true,
-          ease: "none",
-        })
-        // Hold briefly, then vanish
-        .to(overlayRef.current, {
-          opacity: 0,
-          scale: 1.05,
-          duration: 0.3,
-          delay: 0.5,
-          ease: "power2.in",
-        });
-    }
-  }, [showOverlay]);
+      .to(textRef.current, {
+        x: "random(-6, 6)",
+        y: "random(-6, 6)",
+        duration: 0.05,
+        repeat: 5,
+        yoyo: true,
+        ease: "none",
+      })
+      .to(overlayRef.current, {
+        opacity: 0,
+        scale: 1.05,
+        duration: 0.3,
+        delay: 0.5,
+        ease: "power2.in",
+      });
+  }, [showOverlay, color]);
 
   return (
     <div className="flex flex-col gap-4 text-center p-4 border border-transparent">

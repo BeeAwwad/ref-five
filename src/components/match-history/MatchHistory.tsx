@@ -1,10 +1,26 @@
 import { useMatch } from "../../../hooks/useMatch";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Badge } from "../ui/badge";
+import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 export function MatchHistory() {
   const { history } = useMatch();
+  const [expandedMatches, setExpandedMatches] = useState<Set<string>>(
+    new Set(),
+  );
   const sortedHistory = history.sort((b, a) => a.endedAt - b.endedAt);
+
+  const toggleExpanded = (matchId: string) => {
+    const newExpanded = new Set(expandedMatches);
+    if (newExpanded.has(matchId)) {
+      newExpanded.delete(matchId);
+    } else {
+      newExpanded.add(matchId);
+    }
+    setExpandedMatches(newExpanded);
+  };
+
   return (
     <div className="mx-5 md:mx-20 mb-10 space-y-6">
       <h2 className="scroll-m-20 py-5 text-center text-4xl font-extrabold tracking-tight text-balance uppercase">
@@ -29,6 +45,7 @@ export function MatchHistory() {
               .sort((a, b) => a.minute - b.minute);
 
             const hasEvents = allEvents.length > 0;
+            const isExpanded = expandedMatches.has(match.id);
 
             return (
               <Card
@@ -93,7 +110,7 @@ export function MatchHistory() {
 
                   {hasEvents && (
                     <div className="border-t border-slate-200 pt-4 grid grid-cols-2 gap-4 divide-x divide-slate-100">
-                      <div className="space-y-1.5 pr-2">
+                      <div className="pr-2">
                         <h4 className="text-[10px] font-mono uppercase text-muted-foreground font-black tracking-widest text-left mb-2">
                           {match.teamA.name}
                         </h4>
@@ -102,38 +119,62 @@ export function MatchHistory() {
                             No events logged
                           </p>
                         ) : (
-                          <div className="space-y-1">
-                            {teamAEvents.map((e, idx) => (
-                              <div
-                                key={e.id || idx}
-                                className="text-xs font-mono flex items-center gap-2 text-slate-700"
+                          <div className="relative">
+                            <div
+                              className={`space-y-1 overflow-hidden transition-all duration-300 ${
+                                isExpanded ? "max-h-none" : "max-h-24"
+                              }`}
+                            >
+                              {teamAEvents.map((e, idx) => (
+                                <div
+                                  key={e.id || idx}
+                                  className="text-xs font-mono flex items-center gap-2 text-slate-700"
+                                >
+                                  <span className="text-slate-400 font-bold w-6 text-left shrink-0">
+                                    {e.minute}'
+                                  </span>
+                                  {e.type === "goal" ? (
+                                    <span></span>
+                                  ) : (
+                                    <span
+                                      className={`w-2 h-3 border border-black/40 inline-block shrink-0 ${
+                                        e.type === "yellow-card"
+                                          ? "bg-yellow-400"
+                                          : "bg-red-600"
+                                      }`}
+                                    />
+                                  )}
+                                  <span className="font-medium">
+                                    {e.type === "goal"
+                                      ? "Goal scored"
+                                      : `Card #${e.playerNumber ?? "?"}`}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                            {teamAEvents.length > 3 && (
+                              <button
+                                onClick={() => toggleExpanded(match.id)}
+                                className="flex items-center justify-center gap-1 mt-2 text-xs font-mono text-slate-600 hover:text-slate-900 transition-colors"
                               >
-                                <span className="text-slate-400 font-bold w-6 text-left shrink-0">
-                                  {e.minute}’
-                                </span>
-                                {e.type === "goal" ? (
-                                  <span></span>
+                                {isExpanded ? (
+                                  <>
+                                    <span>Show less</span>
+                                    <ChevronUp className="w-3 h-3" />
+                                  </>
                                 ) : (
-                                  <span
-                                    className={`w-2 h-3 border border-black/40 inline-block shrink-0 ${
-                                      e.type === "yellow-card"
-                                        ? "bg-yellow-400"
-                                        : "bg-red-600"
-                                    }`}
-                                  />
+                                  <>
+                                    <span>Show more</span>
+                                    <ChevronDown className="w-3 h-3" />
+                                  </>
                                 )}
-                                <span className="font-medium">
-                                  {e.type === "goal"
-                                    ? "Goal scored"
-                                    : `Card #${e.playerNumber ?? "?"}`}
-                                </span>
-                              </div>
-                            ))}
+                              </button>
+                            )}
                           </div>
                         )}
                       </div>
 
-                      <div className="space-y-1.5 pl-4">
+                      <div className="pl-4">
                         <h4 className="text-[10px] font-mono uppercase text-muted-foreground font-black tracking-widest text-right mb-2">
                           {match.teamB.name}
                         </h4>
@@ -142,33 +183,57 @@ export function MatchHistory() {
                             No events logged
                           </p>
                         ) : (
-                          <div className="space-y-1">
-                            {teamBEvents.map((e, idx) => (
-                              <div
-                                key={e.id || idx}
-                                className="text-xs font-mono flex justify-end items-center gap-2 text-slate-700"
+                          <div className="relative">
+                            <div
+                              className={`space-y-1 overflow-hidden transition-all duration-300 ${
+                                isExpanded ? "max-h-none" : "max-h-24"
+                              }`}
+                            >
+                              {teamBEvents.map((e, idx) => (
+                                <div
+                                  key={e.id || idx}
+                                  className="text-xs font-mono flex justify-end items-center gap-2 text-slate-700"
+                                >
+                                  <span className="text-slate-400 font-bold w-6 text-left shrink-0">
+                                    {e.minute}'
+                                  </span>
+                                  {e.type === "goal" ? (
+                                    <span></span>
+                                  ) : (
+                                    <span
+                                      className={`w-2 h-3 border border-black/40 inline-block shrink-0 ${
+                                        e.type === "yellow-card"
+                                          ? "bg-yellow-400"
+                                          : "bg-red-600"
+                                      }`}
+                                    />
+                                  )}
+                                  <span className="font-medium">
+                                    {e.type === "goal"
+                                      ? "Goal scored"
+                                      : `Card #${e.playerNumber ?? "?"}`}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                            {teamBEvents.length > 3 && (
+                              <button
+                                onClick={() => toggleExpanded(match.id)}
+                                className="flex items-center justify-center gap-1 mt-2 text-xs font-mono text-slate-600 hover:text-slate-900 transition-colors"
                               >
-                                <span className="text-slate-400 font-bold w-6 text-left shrink-0">
-                                  {e.minute}’
-                                </span>
-                                {e.type === "goal" ? (
-                                  <span></span>
+                                {isExpanded ? (
+                                  <>
+                                    <span>Show less</span>
+                                    <ChevronUp className="w-3 h-3" />
+                                  </>
                                 ) : (
-                                  <span
-                                    className={`w-2 h-3 border border-black/40 inline-block shrink-0 ${
-                                      e.type === "yellow-card"
-                                        ? "bg-yellow-400"
-                                        : "bg-red-600"
-                                    }`}
-                                  />
+                                  <>
+                                    <span>Show more</span>
+                                    <ChevronDown className="w-3 h-3" />
+                                  </>
                                 )}
-                                <span className="font-medium">
-                                  {e.type === "goal"
-                                    ? "Goal scored"
-                                    : `Card #${e.playerNumber ?? "?"}`}
-                                </span>
-                              </div>
-                            ))}
+                              </button>
+                            )}
                           </div>
                         )}
                       </div>
